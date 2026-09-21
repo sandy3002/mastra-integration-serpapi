@@ -1,0 +1,1 @@
+export { createSerpApiSearchTool } from './search.js';
