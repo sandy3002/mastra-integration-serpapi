@@ -1,19 +1,50 @@
-import * as dotenv from 'dotenv';
 import { getJson } from 'serpapi';
+import { SerpApiError } from './errors';
 
-dotenv.config();        
+interface SearchParams {
+  engine: string;
+  q: string;
+  api_key: string;
+  location?: string;
+  hl?: string;
+  gl?: string;
+  num?: number;
+}
 
-export function getSerpApiClient(config?: any) {
-  // Implementation for getting SerpApi client
-  const hasApiKey = (config && config.apiKey) || process.env.SERPAPI_API_KEY;
-  if (!hasApiKey) {
-    throw new Error('SerpApi API key is required. Please provide it in the config or set the SERPAPI_API_KEY environment variable.');
+export async function searchSerpApi(
+  engine: string,
+  params: Omit<SearchParams, 'engine'>,
+  abortSignal?: AbortSignal,
+): Promise<any> {
+  const apiKey = params.api_key || process.env.SERPAPI_API_KEY;
+
+  if (!apiKey) {
+    throw new SerpApiError('Missing SerpApi API key', 'MISSING_API_KEY');
   }
-    // Return a mock client for demonstration purposes
-    return {
-        search: (query: string) => {
-        // Mock search implementation
-        return `Searching for "${query}" with API key: ${hasApiKey}`;
-        }
-    };
+
+  try {
+    const response = await getJson(engine, { ...params, api_key: apiKey });
+
+    if (response.error) {
+      throw new SerpApiError(
+        typeof response.error === 'string'
+          ? response.error
+          : JSON.stringify(response.error),
+        'SERPAPI_RESPONSE_ERROR',
+      );
+    }
+
+    return response;
+  } catch (error: any) {
+    if (error.name === 'AbortError') {
+      throw new SerpApiError('Request aborted', 'CLIENT_CLOSED_REQUEST');
+    }
+    if (error instanceof SerpApiError) {
+      throw error;
+    }
+    throw new SerpApiError(
+      error.message || 'Unknown error',
+      'SERPAPI_RESPONSE_ERROR',
+    );
+  }
 }

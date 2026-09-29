@@ -1,0 +1,14 @@
+{
+  "shopping_results": [
+    {
+      "title": "Product Name",
+      "link": "https://shop.example.com",
+      "price": "$10.00",
+      "extracted_price": 10.0,
+      "rating": 4.5,
+      "reviews": 100,
+      "source": "Store Name",
+      "position": 1
+    }
+  ]
+}

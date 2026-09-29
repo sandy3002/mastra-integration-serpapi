@@ -1,0 +1,11 @@
+{
+  "organic_results": [
+    {
+      "title": "Example Result",
+      "link": "https://example.com",
+      "snippet": "This is a test snippet.",
+      "position": 1,
+      "displayed_link": "example.com"
+    }
+  ]
+}

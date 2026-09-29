@@ -1,0 +1,13 @@
+{
+  "news_results": [
+    {
+      "title": "Breaking News",
+      "link": "https://news.example.com",
+      "snippet": "Latest update on the event.",
+      "position": 1,
+      "source": {
+        "name": "News Source"
+      }
+    }
+  ]
+}

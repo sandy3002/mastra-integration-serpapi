@@ -1,0 +1,11 @@
+{
+  "organic_results": [
+    {
+      "title": "Academic Paper",
+      "link": "https://scholar.example.com",
+      "snippet": "Abstract of the paper.",
+      "position": 1,
+      "publication_info": "Journal of Testing, 2026"
+    }
+  ]
+}
